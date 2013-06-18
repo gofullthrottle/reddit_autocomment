@@ -102,18 +102,20 @@ class Controller(Frame):
             
     def submit(self):
             sub = subreddit(self.sub.get())
-            sub.get_new()
             title = self.post.get()
             text = self.text.get('1.0','end')
             if r.is_logged_in() == False:
                 tkMessageBox.showinfo('Error','Not Logged in')
                 return
-            else:
-                while True:
+            while True:
+                sub.get_new()
+                try:
                     sub.comment(title,text)
-            if self.x.get() == 1:
-                subprocess.call(["shutdown.exe", "-f", "-s", "-t", "0"])
-            
+                    if self.x.get() == 1:
+                        subprocess.call(["shutdown.exe", "-f", "-s", "-t", "30"])
+                    return
+                except Exception:
+                    pass
             
 class CommentApp():
     def __init__(self, master=None):
